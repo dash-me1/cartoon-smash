@@ -75,7 +75,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
   function handleLogoutWithToast(logoutFn: () => void) {
     toast("Logged out", {
       description: "You have been logged out. Refreshing...",
-      duration: 2000,
+      duration: 3000,
       richColors: true,
       type: "success",
     });
@@ -125,7 +125,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
           </div>
           <Button
             type="submit"
-            className="w-full animate-in slide-in-from-bottom-2 duration-300 delay-500 hover:scale-105 transition-all"
+            className="w-full animate-in slide-in-from-bottom-2 duration-300 delay-100 hover:scale-105 transition-all"
             disabled={loading}
           >
             {loading ? (

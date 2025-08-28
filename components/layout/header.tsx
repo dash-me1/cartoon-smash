@@ -7,19 +7,14 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { LoginModal } from "@/components/auth/login-modal";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 function handleLogoutWithToast(logoutFn: () => void) {
-  if (typeof window !== "undefined") {
-    // Only show toast in browser
-    // Use Sonner toast if available
-    // @ts-ignore
-    if (window.toast) {
-      window.toast("Logged out", {
-        description: "You have been logged out. Refreshing...",
-        duration: 2000,
-      });
-    }
-  }
+  toast("Logged out", {
+    description: "You have been logged out. Refreshing...",
+    duration: 2000,
+    richColors: true,
+  });
   logoutFn();
   setTimeout(() => {
     window.location.reload();

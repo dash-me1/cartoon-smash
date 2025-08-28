@@ -121,3 +121,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.slow-bounce {
+  animation: bounce 1.8s infinite;
+}
