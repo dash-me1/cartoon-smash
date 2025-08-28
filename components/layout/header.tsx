@@ -8,6 +8,24 @@ import { useAuth } from "@/hooks/use-auth";
 import { LoginModal } from "@/components/auth/login-modal";
 import { Badge } from "@/components/ui/badge";
 
+function handleLogoutWithToast(logoutFn: () => void) {
+  if (typeof window !== "undefined") {
+    // Only show toast in browser
+    // Use Sonner toast if available
+    // @ts-ignore
+    if (window.toast) {
+      window.toast("Logged out", {
+        description: "You have been logged out. Refreshing...",
+        duration: 2000,
+      });
+    }
+  }
+  logoutFn();
+  setTimeout(() => {
+    window.location.reload();
+  }, 2000);
+}
+
 export function Header() {
   const { user, logout, isLoggedIn } = useAuth();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -95,7 +113,11 @@ export function Header() {
                     {getRoleLabel(user.role)}
                   </Badge>
                 </div>
-                <Button variant="outline" size="sm" onClick={logout}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleLogoutWithToast(logout)}
+                >
                   Logout
                 </Button>
               </div>
@@ -172,10 +194,7 @@ export function Header() {
                         variant="outline"
                         size="sm"
                         className="w-full"
-                        onClick={() => {
-                          logout();
-                          setMenuOpen(false);
-                        }}
+                        onClick={() => handleLogoutWithToast(logout)}
                       >
                         Logout
                       </Button>

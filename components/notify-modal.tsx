@@ -29,7 +29,6 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
     setLoading(true);
 
     try {
-      // ...existing code...
       const response = await fetch("/api/notify", {
         method: "POST",
         headers: {
@@ -43,17 +42,17 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
       });
 
       if (response.ok) {
-        toast("Success!", {
-          description:
-            "Thank you for your interest! We'll notify you when courses launch.",
-        });
         onOpenChange(false);
         setEmail("");
         setPhone("");
-        // Show a toast after closing the modal as well
         setTimeout(() => {
           toast("You're on the list!", {
-            description: "You'll be among the first to know when we launch.",
+            description:
+              "Thank you for your interest! You'll be among the first to know when we launch.",
+            duration: 3500,
+            position: "bottom-right",
+            richColors: true,
+            type: "success",
           });
         }, 400);
       } else {
@@ -106,7 +105,7 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
           </div>
           <Button
             type="submit"
-            className="w-full animate-in slide-in-from-bottom-2 duration-150 delay-100 hover:scale-110 transition-all always-bounce"
+            className="w-full animate-in slide-in-from-bottom-2 duration-150 delay-100 hover:scale-110 transition-all"
             disabled={loading}
           >
             {loading ? (

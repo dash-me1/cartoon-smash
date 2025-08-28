@@ -148,3 +148,7 @@
 .always-bounce {
   animation: always-bounce 2.2s infinite !important;
 }
+
+.slow-bounce {
+  animation-duration: 3.5s !important;
+}

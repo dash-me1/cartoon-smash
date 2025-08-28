@@ -25,6 +25,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const { logout } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +36,8 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
       if (user) {
         toast(`Login successful`, {
           description: `Welcome back, ${user.name}!`,
+          richColors: true,
+          type: "success",
         });
         onOpenChange(false);
         setEmail("");
@@ -43,22 +46,44 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
         setTimeout(() => {
           toast("You are now logged in!", {
             description: `Enjoy using Animation LMS, ${user.name}!`,
+            duration: 3000,
+            richColors: true,
+            type: "success",
           });
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         }, 400);
       } else {
         toast("Login failed", {
           description: "Invalid email or password",
+          richColors: true,
+          type: "error",
         });
       }
     } catch (error) {
       toast("Error", {
         description: "Something went wrong. Please try again.",
+        richColors: true,
+        type: "error",
       });
     } finally {
       setLoading(false);
     }
   };
+
+  function handleLogoutWithToast(logoutFn: () => void) {
+    toast("Logged out", {
+      description: "You have been logged out. Refreshing...",
+      duration: 2000,
+      richColors: true,
+      type: "success",
+    });
+    logoutFn();
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

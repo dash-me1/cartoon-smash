@@ -45,7 +45,7 @@ export default function HomePage() {
             <Button
               size="lg"
               onClick={() => setNotifyModalOpen(true)}
-              className="text-lg px-8 py-6 shadow-xl shadow-primary/30 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 always-bounce"
+              className="text-lg px-8 py-6 shadow-xl shadow-primary/30 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 always-bounce slow-bounce"
             >
               Notify Me When We Launch
             </Button>
