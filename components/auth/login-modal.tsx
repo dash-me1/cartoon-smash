@@ -44,6 +44,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
           toast("You are now logged in!", {
             description: `Enjoy using Animation LMS, ${user.name}!`,
           });
+          window.location.reload();
         }, 400);
       } else {
         toast("Login failed", {
