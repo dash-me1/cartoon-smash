@@ -106,7 +106,7 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
           </div>
           <Button
             type="submit"
-            className="w-full animate-in slide-in-from-bottom-2 duration-150 delay-100 hover:scale-110 transition-all"
+            className="w-full animate-in slide-in-from-bottom-2 duration-150 delay-100 hover:scale-110 transition-all always-bounce"
             disabled={loading}
           >
             {loading ? (

@@ -5,7 +5,7 @@
 
 :root {
   /* Updated color scheme for animation company LMS */
-  --background: oklch(1 0 0);
+  --background: oklch(100% 0.00011 271.152);
   --foreground: oklch(0.25 0 0);
   --card: oklch(0.99 0.01 15);
   --card-foreground: oklch(0.25 0 0);
@@ -124,4 +124,27 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom always-bounce animation for Notify Me button (placed last for specificity) */
+@keyframes always-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-6px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+}
+.always-bounce {
+  animation: always-bounce 2.2s infinite !important;
 }

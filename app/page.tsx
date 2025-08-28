@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Header } from "@/components/layout/header"
-import { NotifyModal } from "@/components/notify-modal"
-import { useAuth } from "@/hooks/use-auth"
-import { Sparkles, Play, Users, Award } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Header } from "@/components/layout/header";
+import { NotifyModal } from "@/components/notify-modal";
+import { useAuth } from "@/hooks/use-auth";
+import { Sparkles, Play, Users, Award } from "lucide-react";
 
 export default function HomePage() {
-  const [notifyModalOpen, setNotifyModalOpen] = useState(false)
-  const { user } = useAuth()
+  const [notifyModalOpen, setNotifyModalOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,8 +35,9 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance animate-in fade-in-0 slide-in-from-bottom-4 duration-700 delay-500">
-              Our comprehensive animation courses are launching very soon! Join thousands of aspiring animators ready to
-              bring their creativity to life.
+              Our comprehensive animation courses are launching very soon! Join
+              thousands of aspiring animators ready to bring their creativity to
+              life.
             </p>
           </div>
 
@@ -44,7 +45,7 @@ export default function HomePage() {
             <Button
               size="lg"
               onClick={() => setNotifyModalOpen(true)}
-              className="text-lg px-8 py-6 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+              className="text-lg px-8 py-6 shadow-xl shadow-primary/30 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 always-bounce"
             >
               Notify Me When We Launch
             </Button>
@@ -67,21 +68,24 @@ export default function HomePage() {
             {
               icon: Play,
               title: "Interactive Lessons",
-              description: "Learn through hands-on projects and real-time feedback from industry professionals.",
+              description:
+                "Learn through hands-on projects and real-time feedback from industry professionals.",
               color: "primary",
               delay: "delay-200",
             },
             {
               icon: Users,
               title: "Expert Mentorship",
-              description: "Get guidance from award-winning animators who've worked on blockbuster films.",
+              description:
+                "Get guidance from award-winning animators who've worked on blockbuster films.",
               color: "secondary",
               delay: "delay-400",
             },
             {
               icon: Award,
               title: "Industry Recognition",
-              description: "Earn certificates that are recognized by top animation studios worldwide.",
+              description:
+                "Earn certificates that are recognized by top animation studios worldwide.",
               color: "accent",
               delay: "delay-600",
             },
@@ -116,8 +120,9 @@ export default function HomePage() {
               Something Amazing is Coming
             </h2>
             <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto group-hover:text-foreground/80 transition-colors duration-300">
-              We're putting the finishing touches on our revolutionary animation learning platform. Be among the first
-              to experience the future of creative education.
+              We're putting the finishing touches on our revolutionary animation
+              learning platform. Be among the first to experience the future of
+              creative education.
             </p>
             <Button
               size="lg"
@@ -141,5 +146,5 @@ export default function HomePage() {
 
       <NotifyModal open={notifyModalOpen} onOpenChange={setNotifyModalOpen} />
     </div>
-  )
+  );
 }
