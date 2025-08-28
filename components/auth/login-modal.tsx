@@ -87,14 +87,14 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md animate-in fade-in-0 zoom-in-95 duration-300">
-        <DialogHeader className="animate-in slide-in-from-top-2 duration-300 delay-100">
+      <DialogContent className="sm:max-w-md animate-in fade-in-0 zoom-in-95 duration-250">
+        <DialogHeader className="animate-in slide-in-from-top-2 duration-250 delay-100">
           <DialogTitle className="text-center">
             Login to Animation LMS
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2 animate-in slide-in-from-left-2 duration-300 delay-200">
+          <div className="space-y-2 animate-in slide-in-from-left-2 duration-250 delay-200">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -106,7 +106,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
               required
             />
           </div>
-          <div className="space-y-2 animate-in slide-in-from-right-2 duration-300 delay-300">
+          <div className="space-y-2 animate-in slide-in-from-right-2 duration-250 delay-300">
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
@@ -118,21 +118,21 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
               required
             />
           </div>
-          <div className="text-sm text-muted-foreground animate-in fade-in-0 duration-300 delay-400">
+          <div className="text-sm text-muted-foreground animate-in fade-in-0 duration-250 delay-400">
             {/* <p>Demo credentials:</p>
             <p>Admin: admin@animationlms.com / password123</p>
             <p>Student: student@example.com / password123</p> */}
           </div>
           <Button
             type="submit"
-            className="w-full animate-in slide-in-from-bottom-2 duration-300 delay-100 hover:scale-105 transition-all"
+            className="w-full animate-in slide-in-from-bottom-2 duration-250 delay-100 hover:scale-105 transition-all"
             disabled={loading}
           >
             {loading ? (
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
-                  style={{ animationDuration: "0.6s" }}
+                  style={{ animationDuration: "0.5s" }}
                 />
                 Logging in...
               </div>
