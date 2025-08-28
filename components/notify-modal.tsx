@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface NotifyModalProps {
   open: boolean;
@@ -23,7 +23,6 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,22 +43,25 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
       });
 
       if (response.ok) {
-        toast({
-          title: "Success!",
+        toast("Success!", {
           description:
             "Thank you for your interest! We'll notify you when courses launch.",
         });
         onOpenChange(false);
         setEmail("");
         setPhone("");
+        // Show a toast after closing the modal as well
+        setTimeout(() => {
+          toast("You're on the list!", {
+            description: "You'll be among the first to know when we launch.",
+          });
+        }, 400);
       } else {
         throw new Error("Failed to submit");
       }
     } catch (error) {
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "Something went wrong. Please try again.",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -104,12 +106,15 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
           </div>
           <Button
             type="submit"
-            className="w-full animate-in slide-in-from-bottom-2 duration-300 delay-500 hover:scale-105 transition-all"
+            className="w-full animate-in slide-in-from-bottom-2 duration-150 delay-100 hover:scale-110 transition-all"
             disabled={loading}
           >
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div
+                  className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
+                  style={{ animationDuration: "0.6s" }}
+                />
                 Submitting...
               </div>
             ) : (
