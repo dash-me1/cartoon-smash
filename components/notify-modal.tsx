@@ -1,31 +1,36 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 interface NotifyModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      // Mock Google Sheets integration - in production, this would send to actual Google Sheets API
+      // ...existing code...
       const response = await fetch("/api/notify", {
         method: "POST",
         headers: {
@@ -36,38 +41,42 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
           phone,
           timestamp: new Date().toISOString(),
         }),
-      })
+      });
 
       if (response.ok) {
         toast({
           title: "Success!",
-          description: "Thank you for your interest! We'll notify you when courses launch.",
-        })
-        onOpenChange(false)
-        setEmail("")
-        setPhone("")
+          description:
+            "Thank you for your interest! We'll notify you when courses launch.",
+        });
+        onOpenChange(false);
+        setEmail("");
+        setPhone("");
       } else {
-        throw new Error("Failed to submit")
+        throw new Error("Failed to submit");
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md animate-in fade-in-0 zoom-in-95 duration-300">
         <DialogHeader className="animate-in slide-in-from-top-2 duration-300 delay-100">
-          <DialogTitle className="text-center">Get Notified When We Launch!</DialogTitle>
+          <DialogTitle className="text-center">
+            Get Notified When We Launch!
+          </DialogTitle>
         </DialogHeader>
         <div className="text-sm text-muted-foreground mb-4 text-center animate-in fade-in-0 duration-300 delay-200">
-          Be the first to know when our animation courses go live. We'll send you exclusive early access!
+          Be the first to know when our animation courses go live. We'll send
+          you exclusive early access!
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2 animate-in slide-in-from-left-2 duration-300 delay-300">
@@ -110,5 +119,5 @@ export function NotifyModal({ open, onOpenChange }: NotifyModalProps) {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

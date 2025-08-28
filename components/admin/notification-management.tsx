@@ -1,92 +1,110 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useToast } from "@/hooks/use-toast"
-import { Search, Download, Mail, RefreshCw } from "lucide-react"
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
+import { Search, Download, Mail, RefreshCw } from "lucide-react";
 
 interface NotificationSignup {
-  email: string
-  phone?: string
-  timestamp: string
-  source?: string
+  email: string;
+  phone?: string;
+  timestamp: string;
+  source?: string;
 }
 
 export function NotificationManagement() {
-  const [notifications, setNotifications] = useState<NotificationSignup[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const { toast } = useToast()
+  const [notifications, setNotifications] = useState<NotificationSignup[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { toast } = useToast();
 
   const fetchNotifications = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch("/api/notify")
+      const response = await fetch("/api/notify");
       if (response.ok) {
-        const data = await response.json()
-        setNotifications(data.data || [])
+        const data = await response.json();
+        setNotifications(data.data || []);
       } else {
-        throw new Error("Failed to fetch notifications")
+        throw new Error("Failed to fetch notifications");
       }
     } catch (error) {
-      console.error("Error fetching notifications:", error)
+      console.error("Error fetching notifications:", error);
       toast({
         title: "Error",
-        description: "Failed to load notifications from Google Sheets",
+        description: "Failed to load notifications.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchNotifications()
-  }, [])
+    fetchNotifications();
+  }, []);
 
   const filteredNotifications = notifications.filter((notification) =>
-    notification.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+    notification.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleExportCSV = () => {
     const csvContent = [
       ["Email", "Phone", "Timestamp", "Source"],
-      ...filteredNotifications.map((n) => [n.email, n.phone || "", n.timestamp, n.source || ""]),
+      ...filteredNotifications.map((n) => [
+        n.email,
+        n.phone || "",
+        n.timestamp,
+        n.source || "",
+      ]),
     ]
       .map((row) => row.join(","))
-      .join("\n")
+      .join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "notification-signups.csv"
-    a.click()
-    window.URL.revokeObjectURL(url)
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "notification-signups.csv";
+    a.click();
+    window.URL.revokeObjectURL(url);
 
     toast({
       title: "Export successful",
       description: "Notification signups have been exported to CSV.",
-    })
-  }
+    });
+  };
 
   const handleSendBulkEmail = () => {
     toast({
       title: "Bulk email sent",
       description: `Launch notification sent to ${filteredNotifications.length} subscribers.`,
-    })
-  }
+    });
+  };
 
   if (loading) {
     return (
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Notification Management</h1>
-          <p className="text-muted-foreground">Loading notifications from Google Sheets...</p>
+          <p className="text-muted-foreground">Loading notifications...</p>
         </div>
         <Card>
           <CardContent className="flex items-center justify-center py-12">
@@ -94,14 +112,16 @@ export function NotificationManagement() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Notification Management</h1>
-        <p className="text-muted-foreground">Manage users who signed up for launch notifications via Google Sheets.</p>
+        <p className="text-muted-foreground">
+          Manage users who signed up for launch notifications.
+        </p>
       </div>
 
       {/* Stats Cards */}
@@ -113,7 +133,7 @@ export function NotificationManagement() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{notifications.length}</div>
-            <p className="text-xs text-muted-foreground">Stored in Google Sheets</p>
+            <p className="text-xs text-muted-foreground">Stored in database</p>
           </CardContent>
         </Card>
 
@@ -123,10 +143,16 @@ export function NotificationManagement() {
             <Mail className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{notifications.filter((n) => n.phone).length}</div>
+            <div className="text-2xl font-bold">
+              {notifications.filter((n) => n.phone).length}
+            </div>
             <p className="text-xs text-muted-foreground">
               {notifications.length > 0
-                ? Math.round((notifications.filter((n) => n.phone).length / notifications.length) * 100)
+                ? Math.round(
+                    (notifications.filter((n) => n.phone).length /
+                      notifications.length) *
+                      100
+                  )
                 : 0}
               % of total
             </p>
@@ -142,10 +168,10 @@ export function NotificationManagement() {
             <div className="text-2xl font-bold">
               {
                 notifications.filter((n) => {
-                  const signupDate = new Date(n.timestamp)
-                  const yesterday = new Date()
-                  yesterday.setDate(yesterday.getDate() - 1)
-                  return signupDate > yesterday
+                  const signupDate = new Date(n.timestamp);
+                  const yesterday = new Date();
+                  yesterday.setDate(yesterday.getDate() - 1);
+                  return signupDate > yesterday;
                 }).length
               }
             </div>
@@ -170,7 +196,7 @@ export function NotificationManagement() {
             <div className="flex gap-2">
               <Button variant="outline" onClick={fetchNotifications}>
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Refresh from Sheets
+                Refresh
               </Button>
               <Button variant="outline" onClick={handleExportCSV}>
                 <Download className="h-4 w-4 mr-2" />
@@ -188,13 +214,17 @@ export function NotificationManagement() {
       {/* Notifications Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Notification Signups ({filteredNotifications.length})</CardTitle>
-          <CardDescription>Users waiting for course launch notifications (synced from Google Sheets)</CardDescription>
+          <CardTitle>
+            Notification Signups ({filteredNotifications.length})
+          </CardTitle>
+          <CardDescription>
+            Users waiting for course launch notifications
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {filteredNotifications.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              No notification signups found. Check your Google Sheets integration in Settings.
+              No notification signups found.
             </div>
           ) : (
             <Table>
@@ -210,12 +240,20 @@ export function NotificationManagement() {
               <TableBody>
                 {filteredNotifications.map((notification, index) => (
                   <TableRow key={`${notification.email}-${index}`}>
-                    <TableCell className="font-medium">{notification.email}</TableCell>
-                    <TableCell>
-                      {notification.phone ? notification.phone : <Badge variant="outline">No phone</Badge>}
+                    <TableCell className="font-medium">
+                      {notification.email}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{notification.source || "Website"}</Badge>
+                      {notification.phone ? (
+                        notification.phone
+                      ) : (
+                        <Badge variant="outline">No phone</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">
+                        {notification.source || "Website"}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       {new Date(notification.timestamp).toLocaleDateString()} at{" "}
@@ -236,5 +274,5 @@ export function NotificationManagement() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

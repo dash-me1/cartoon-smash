@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Header } from "@/components/layout/header"
-import { AdminSidebar } from "@/components/admin/admin-sidebar"
-import { GoogleSheetsSetup } from "@/components/admin/google-sheets-setup"
-import { useAuth } from "@/hooks/use-auth"
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Header } from "@/components/layout/header";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
+// import { GoogleSheetsSetup } from "@/components/admin/google-sheets-setup"
+import { useAuth } from "@/hooks/use-auth";
 
 export default function AdminSettingsPage() {
-  const { hasPermission } = useAuth()
-  const router = useRouter()
+  const { hasPermission } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!hasPermission("super_user")) {
-      router.push("/")
+      router.push("/");
     }
-  }, [hasPermission, router])
+  }, [hasPermission, router]);
 
   if (!hasPermission("super_user")) {
-    return null
+    return null;
   }
 
   return (
@@ -30,12 +30,14 @@ export default function AdminSettingsPage() {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold">Settings</h1>
-              <p className="text-muted-foreground">Configure integrations and system settings.</p>
+              <p className="text-muted-foreground">
+                Configure integrations and system settings.
+              </p>
             </div>
-            <GoogleSheetsSetup />
+            {/* <GoogleSheetsSetup /> */}
           </div>
         </main>
       </div>
     </div>
-  )
+  );
 }
