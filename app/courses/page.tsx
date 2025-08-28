@@ -1,35 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useAuth } from "@/hooks/use-auth"
-import { Clock, Users, Star, Lock, Play, BookOpen } from "lucide-react"
+import { useState } from "react";
+import { Header } from "@/components/layout/header";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuth } from "@/hooks/use-auth";
+import { Clock, Users, Star, Lock, Play, BookOpen } from "lucide-react";
 
 interface Course {
-  id: string
-  title: string
-  description: string
-  instructor: string
-  duration: string
-  level: "Beginner" | "Intermediate" | "Advanced"
-  price: number
-  rating: number
-  students: number
-  thumbnail: string
-  category: string
-  isLaunched: boolean
+  id: string;
+  title: string;
+  description: string;
+  instructor: string;
+  duration: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  price: number;
+  rating: number;
+  students: number;
+  thumbnail: string;
+  category: string;
+  isLaunched: boolean;
 }
 
 const mockCourses: Course[] = [
   {
     id: "1",
     title: "2D Character Animation Fundamentals",
-    description: "Learn the basics of 2D character animation using industry-standard techniques and software.",
+    description:
+      "Learn the basics of 2D character animation using industry-standard techniques and software.",
     instructor: "Sarah Johnson",
     duration: "8 weeks",
     level: "Beginner",
@@ -43,7 +57,8 @@ const mockCourses: Course[] = [
   {
     id: "2",
     title: "3D Modeling for Animation",
-    description: "Master 3D modeling techniques specifically designed for animation workflows.",
+    description:
+      "Master 3D modeling techniques specifically designed for animation workflows.",
     instructor: "Mike Chen",
     duration: "10 weeks",
     level: "Intermediate",
@@ -57,7 +72,8 @@ const mockCourses: Course[] = [
   {
     id: "3",
     title: "Motion Graphics Mastery",
-    description: "Create stunning motion graphics for commercials, films, and digital media.",
+    description:
+      "Create stunning motion graphics for commercials, films, and digital media.",
     instructor: "Emma Rodriguez",
     duration: "6 weeks",
     level: "Intermediate",
@@ -71,7 +87,8 @@ const mockCourses: Course[] = [
   {
     id: "4",
     title: "Advanced Rigging Techniques",
-    description: "Professional character rigging for complex animation projects.",
+    description:
+      "Professional character rigging for complex animation projects.",
     instructor: "David Park",
     duration: "12 weeks",
     level: "Advanced",
@@ -85,7 +102,8 @@ const mockCourses: Course[] = [
   {
     id: "5",
     title: "Storyboarding for Animation",
-    description: "Learn to create compelling storyboards that bring your animation ideas to life.",
+    description:
+      "Learn to create compelling storyboards that bring your animation ideas to life.",
     instructor: "Lisa Thompson",
     duration: "4 weeks",
     level: "Beginner",
@@ -99,7 +117,8 @@ const mockCourses: Course[] = [
   {
     id: "6",
     title: "VFX Compositing Essentials",
-    description: "Master the art of visual effects compositing for film and television.",
+    description:
+      "Master the art of visual effects compositing for film and television.",
     instructor: "Alex Kumar",
     duration: "8 weeks",
     level: "Advanced",
@@ -110,41 +129,46 @@ const mockCourses: Course[] = [
     category: "VFX",
     isLaunched: false,
   },
-]
+];
 
 export default function CoursesPage() {
-  const { user, hasPermission } = useAuth()
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedLevel, setSelectedLevel] = useState("all")
+  const { user, hasPermission } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedLevel, setSelectedLevel] = useState("all");
 
-  const categories = ["all", ...Array.from(new Set(mockCourses.map((course) => course.category)))]
-  const levels = ["all", "Beginner", "Intermediate", "Advanced"]
+  const categories = [
+    "all",
+    ...Array.from(new Set(mockCourses.map((course) => course.category))),
+  ];
+  const levels = ["all", "Beginner", "Intermediate", "Advanced"];
 
   const filteredCourses = mockCourses.filter((course) => {
     const matchesSearch =
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === "all" || course.category === selectedCategory
-    const matchesLevel = selectedLevel === "all" || course.level === selectedLevel
-    return matchesSearch && matchesCategory && matchesLevel
-  })
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || course.category === selectedCategory;
+    const matchesLevel =
+      selectedLevel === "all" || course.level === selectedLevel;
+    return matchesSearch && matchesCategory && matchesLevel;
+  });
 
   const getLevelBadgeVariant = (level: string) => {
     switch (level) {
       case "Beginner":
-        return "secondary"
+        return "secondary";
       case "Intermediate":
-        return "default"
+        return "default";
       case "Advanced":
-        return "destructive"
+        return "destructive";
       default:
-        return "outline"
+        return "outline";
     }
-  }
+  };
 
-  const canViewFullDetails = hasPermission("normal_user")
-  const canManageCourses = hasPermission("super_user")
+  const canViewFullDetails = hasPermission("normal_user");
+  const canManageCourses = hasPermission("super_user");
 
   return (
     <div className="min-h-screen bg-background">
@@ -182,7 +206,10 @@ export default function CoursesPage() {
             />
           </div>
           <div className="flex gap-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
               <SelectTrigger className="w-48 hover:scale-105 transition-transform duration-300">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
@@ -249,13 +276,18 @@ export default function CoursesPage() {
                   </Badge>
                 </div>
                 <CardDescription className="line-clamp-2 group-hover:text-foreground/80 transition-colors duration-300">
-                  {canViewFullDetails ? course.description : "Login to view full course description"}
+                  {canViewFullDetails
+                    ? course.description
+                    : "Login to view full course description"}
                 </CardDescription>
               </CardHeader>
 
               <CardContent className="space-y-4">
                 <div className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-colors duration-300">
-                  <p>Instructor: {canViewFullDetails ? course.instructor : "Hidden"}</p>
+                  <p>
+                    Instructor:{" "}
+                    {canViewFullDetails ? course.instructor : "Hidden"}
+                  </p>
                 </div>
 
                 {canViewFullDetails && (
@@ -277,9 +309,14 @@ export default function CoursesPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300">
-                    {canViewFullDetails ? `$${course.price}` : "Login for pricing"}
+                    {canViewFullDetails
+                      ? `$${course.price}`
+                      : "Login for pricing"}
                   </div>
-                  <Badge variant="outline" className="hover:scale-110 transition-transform duration-300">
+                  <Badge
+                    variant="outline"
+                    className="hover:scale-110 transition-transform duration-300"
+                  >
                     {course.category}
                   </Badge>
                 </div>
@@ -329,7 +366,9 @@ export default function CoursesPage() {
 
         {filteredCourses.length === 0 && (
           <div className="text-center py-12 animate-in fade-in-0 zoom-in-95 duration-500">
-            <p className="text-muted-foreground">No courses found matching your criteria.</p>
+            <p className="text-muted-foreground">
+              No courses found matching your criteria.
+            </p>
           </div>
         )}
 
@@ -340,7 +379,8 @@ export default function CoursesPage() {
               More Courses Coming Soon!
             </h2>
             <p className="text-muted-foreground mb-4 group-hover:text-foreground/80 transition-colors duration-300">
-              We're constantly adding new courses to help you master every aspect of animation.
+              We're constantly adding new courses to help you master every
+              aspect of animation.
             </p>
             <Button
               variant="outline"
@@ -352,5 +392,5 @@ export default function CoursesPage() {
         </Card>
       </main>
     </div>
-  )
+  );
 }
