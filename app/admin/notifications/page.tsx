@@ -1,0 +1,35 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { Header } from "@/components/layout/header"
+import { AdminSidebar } from "@/components/admin/admin-sidebar"
+import { NotificationManagement } from "@/components/admin/notification-management"
+import { useAuth } from "@/hooks/use-auth"
+
+export default function AdminNotificationsPage() {
+  const { hasPermission } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!hasPermission("super_user")) {
+      router.push("/")
+    }
+  }, [hasPermission, router])
+
+  if (!hasPermission("super_user")) {
+    return null
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex">
+        <AdminSidebar />
+        <main className="flex-1 p-6">
+          <NotificationManagement />
+        </main>
+      </div>
+    </div>
+  )
+}
